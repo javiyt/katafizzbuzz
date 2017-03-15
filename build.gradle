@@ -1,0 +1,25 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
+}
+
+sourceSets {
+  main.java.srcDirs = ['src/main/java']
+  test.java.srcDirs = ['src/test/java']
+}
+
+idea {
+  module {
+    inheritOutputDirs = false
+    outputDir = file("$buildDir/classes/main/")
+  }
+}
