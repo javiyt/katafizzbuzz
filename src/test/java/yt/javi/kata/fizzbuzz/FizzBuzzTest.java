@@ -21,7 +21,7 @@ public class FizzBuzzTest {
     List<Object> fizzBuzzList = fizzBuzz.getFizzBuzzSequence();
 
     assertThat(fizzBuzzList.get(0), is(1));
-    assertThat(fizzBuzzList.get(fizzBuzzList.size() - 1), is(100));
+      assertThat(fizzBuzzList.get(fizzBuzzList.size() - 1), is("Buzz"));
   }
 
   @Test
