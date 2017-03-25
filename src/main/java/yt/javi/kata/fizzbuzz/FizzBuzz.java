@@ -1,6 +1,8 @@
 package yt.javi.kata.fizzbuzz;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import static java.lang.Integer.parseInt;
 import static java.util.stream.Collectors.toList;
@@ -10,26 +12,25 @@ import static java.util.stream.IntStream.rangeClosed;
 public class FizzBuzz {
   public List<Object> getFizzBuzzSequence() {
     return rangeClosed(1, 100)
-            .mapToObj(value -> isDivisibleBy5(value) && isDivisibleBy3(value) ? "FizzBuzz" : value)
-            .map(value -> isDivisibleBy5(value) ? "Buzz" : value)
-            .map(value -> isDivisibleBy3(value) ? "Fizz" : value)
+            .mapToObj(String::valueOf)
+            .map(isDivisibleBy("FizzBuzz", 3, 5))
+            .map(isDivisibleBy("Buzz", 5))
+            .map(isDivisibleBy("Fizz", 3))
+            .map(value -> isInteger(value) ? parseInt(value) : value)
             .collect(toList());
   }
 
-  private boolean isInteger(String s) {
+  private boolean isInteger(String value) {
     try {
-      parseInt(s);
+      parseInt(value);
       return true;
     } catch (NumberFormatException | NullPointerException e) {
       return false;
     }
   }
 
-  private boolean isDivisibleBy5(Object integer) {
-    return isInteger(integer.toString()) && Integer.valueOf(integer.toString()) % 5 == 0;
-  }
-
-  private boolean isDivisibleBy3(Object integer) {
-    return isInteger(integer.toString()) && Integer.valueOf(integer.toString()) % 3 == 0;
+  private Function<String, String> isDivisibleBy(String ifMatch, Integer... divisor) {
+    return value -> isInteger(value)
+            && Arrays.stream(divisor).allMatch(integer -> Integer.valueOf(value) % integer == 0) ? ifMatch : value;
   }
 }
